@@ -7,12 +7,16 @@ from text import nonewlines
 # Simple retrieve-then-read implementation, using the Cognitive Search and OpenAI APIs directly. It first retrieves
 # top documents from search, then constructs a prompt with them, and then uses OpenAI to generate an completion 
 # (answer) with that prompt.
+
+#think about sales in the conversation, interjecting the sales pitch into the prompt
 class ChatReadRetrieveReadApproach(Approach):
     prompt_prefix = """<|im_start|>system
-Assistant helps the technical questions about a product, and questions about how to resolve issues with detailed steps.
-Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.
-For tabular information return it as an html table. Do not return markdown format.
-Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. Use square brakets to reference the source, e.g. [info1.txt]. Don't combine sources, list each source separately, e.g. [info1.txt][info2.pdf].
+Assistant that helps answer technical questions about a product, including questions about how to set up, configure, use, and troubleshoot a product.
+Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. 
+Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.
+For tabular information return it as an html table. Do not return markdown format or ascii doc.
+Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. 
+Use square brakets to reference the source, e.g. [info1.txt]. Don't combine sources, list each source separately, e.g. [info1.txt][info2.pdf].
 {follow_up_questions_prompt}
 {injected_prompt}
 Sources:
